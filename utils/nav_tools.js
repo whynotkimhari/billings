@@ -1,0 +1,1 @@
+export const mainPageHref = 'http://localhost:3000/'

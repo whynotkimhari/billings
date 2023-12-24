@@ -10,6 +10,7 @@ import {
   getProviders,
   useSession,
 } from "next-auth/react";
+import { mainPageHref } from "@utils/nav_tools";
 
 const Nav = () => {
   const { data: session } = useSession();
@@ -29,13 +30,13 @@ const Nav = () => {
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src="public/assets/images/logo.svg"
+          src="public\assets\images\logo.svg"
           alt="logo"
           width={30}
           height={30}
           className="object-contain"
         />
-        <p className="logo_text">Billings</p>
+        <p className="logo_text">Billin'</p>
       </Link>
 
       {/* Desktop navigation */}
@@ -46,7 +47,7 @@ const Nav = () => {
               Create Billing
             </Link>
 
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button type="button" onClick={() => {signOut().then(() => window.location.href = mainPageHref)}} className="outline_btn">
               Sign Out
             </button>
 
@@ -56,6 +57,7 @@ const Nav = () => {
                 width={37}
                 height={37}
                 className="rounded-full"
+                alt="user image"
               />
             </Link>
           </div>
@@ -85,6 +87,7 @@ const Nav = () => {
               width={37}
               height={37}
               className="rounded-full"
+              alt="user image"
               onClick={() => setToggleDropdown((prev) => !prev)}
             ></Image>
 
