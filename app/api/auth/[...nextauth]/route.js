@@ -13,20 +13,17 @@ const handler = NextAuth({
     ],
     callback: {
         async session({ session }) {
-            const key = { email: session.user.email }
-            const sessionUser = await User.findOne(key)
-            
+            const sessionUser = await User.findOne({ email: session.user.email })
             session.user.id = sessionUser._id.toString()
 
             return session
         },
-        async signIn({ profile }) {
+        async signIn({ account, profile, user, credentials }) {
             try {
                 await connectToDatabase()
 
                 // check if existed user
-                const key = { email: profile.email }
-                const userExist = await User.findOne(key)
+                const userExist = await User.findOne({ email: profile.email })
 
                 // else, create new user
                 if (!userExist) {
@@ -37,7 +34,7 @@ const handler = NextAuth({
                         image: profile.picture
                     }
 
-                    User.create(user)
+                    await User.create(user)
                 }
 
             } catch (error) {
