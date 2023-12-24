@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const CURRENCY = "HUF"
+const CURRENCY = "HUF";
+let isEdit = false;
+let editedID = -1;
+let currentIDnotEdited = 0
 
 const Form = ({ type, billing, setBilling, submitting, handleSubmit }) => {
   let [formData, setFormData] = useState({
@@ -24,45 +27,95 @@ const Form = ({ type, billing, setBilling, submitting, handleSubmit }) => {
     };
   };
 
-  const checkValidForm = (form) => form.date && form.itemName && form.itemPrice && form.itemQuantity
+  const checkValidForm = (form) =>
+    form.date && form.itemName && Number(form.itemPrice) >= 0 && Number(form.itemQuantity) >= 0;
 
   const handleAddButtonClick = () => {
-    formData = getData(formData.id);
 
-    console.log(formData)
+    console.log(document.getElementById("isEdited").value, currentIDnotEdited)
 
+    // console.log(document.getElementById("isEdited").value)
+    formData = document.getElementById("isEdited").value === "false" ? getData(formData.id) : getData(Number(document.getElementById("editedID").value))
     // Add the current form data to the list of registered items
 
-    if(checkValidForm(formData)) {
+    if (checkValidForm(formData)) {
       document.getElementById("dateID").style.display = "none";
+      document.getElementById("items-date").innerText = `Date: ${formData.date}`
 
       registeredItems.push(formData)
+      setRegisteredItems(registeredItems)
+
+      console.log("Registered Items after Adding: ", registeredItems)
 
       // Add to the registered view
       document.getElementById("items").innerHTML += `
-        <label id="item-${formData.id}" class="font-satoshi font-semibold text-base text-gray-700 w-full flex rounded-lg mt-1 outline-0">
-          ${formData.itemName} : ${formData.itemPrice} x ${formData.itemQuantity} = ${formData.itemQuantity*formData.itemPrice} ${CURRENCY}
-        </label>
+        <div class="flex justify-around" id="item-${formData.id}">
+          <label class="font-satoshi font-semibold text-base text-gray-700 w-full flex rounded-lg outline-0">
+            ${formData.itemName} : ${formData.itemPrice} x ${formData.itemQuantity} = ${formData.itemQuantity * formData.itemPrice} ${CURRENCY}
+          </label>
+          <span class="form_btn mr-1 edit-btn" data-id=${formData.id}>Edit</span>
+          <span class="form_btn del-btn" data-id=${formData.id}>Delete</span>
+        </div>
       `
 
+      document.querySelectorAll('[id^="item-"]').forEach(item => {
+        const handleDeleteButton = e => {
+          const id = Number(e.target.dataset.id)
+          registeredItems = registeredItems.filter(i => i.id !== id)
+          setRegisteredItems(registeredItems)
+
+          console.log("Registered Items after Deleting: ", registeredItems)
+          document.getElementById(`item-${id}`).remove()
+        }
+
+        const handleEditButton = e => {
+          const id = Number(e.target.dataset.id)
+
+          const editedItem = registeredItems.filter(i => i.id === id)[0]
+
+          document.getElementById("nameID").value = editedItem.itemName
+          document.getElementById("priceID").value = editedItem.itemPrice
+          document.getElementById("quantityID").value = editedItem.itemQuantity
+          
+          isEdit = true
+          editedID = id
+
+          registeredItems = registeredItems.filter(i => i.id !== id)
+          setRegisteredItems(registeredItems)
+          console.log("Registered Items after taking item to Edit: ", registeredItems)
+          document.getElementById(`item-${id}`).remove()
+        }
+
+        item.querySelector('.del-btn').addEventListener('click', handleDeleteButton)
+        item.querySelector('.edit-btn').addEventListener('click', handleEditButton)
+      })
+
       // Clear the form data for the next entry
-      setFormData({
-        id: ++formData.id,
+      if(!isEdit) currentIDnotEdited++
+
+      const nextFormData = {
+        id: currentIDnotEdited,
         date: formData.date,
         itemName: "",
         itemPrice: 0,
         itemQuantity: 0,
-      });
+      }
+      setFormData(nextFormData)
 
-      document.getElementById("nameID").value = "";
-      document.getElementById("priceID").value = "";
-      document.getElementById("quantityID").value = "";
-    }
+      // reset
 
-    else {
+      document.getElementById("nameID").value = ""
+      document.getElementById("priceID").value = ""
+      document.getElementById("quantityID").value = ""
+
+
+      isEdit = false
+      editedID = -1
+      
+    } else {
       // will use Sweet alert here later !
       alert("Please fill out all the box!")
-    }    
+    }
   };
 
   return (
@@ -90,6 +143,8 @@ const Form = ({ type, billing, setBilling, submitting, handleSubmit }) => {
           >
             Date: {formData.date}
           </label>
+          <input type="text" value={isEdit} hidden id="isEdited" />
+          <input type="text" value={editedID} hidden id="editedID" />
           <input type="date" name="date" className="form_input" id="dateID" />
           <label
             htmlFor="itemName"
@@ -159,8 +214,8 @@ const Form = ({ type, billing, setBilling, submitting, handleSubmit }) => {
           id="items"
           className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
         >
-          <label className="font-satoshi font-semibold text-base text-gray-700">
-            Date: {formData.date}
+          <label className="font-satoshi font-semibold text-base text-gray-700" id="items-date">
+            Date:
           </label>
         </form>
       </div>

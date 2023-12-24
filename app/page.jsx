@@ -8,7 +8,7 @@ const Home = () => {
         <br />
         <span className="orange_gradient text-center">
           {" "}
-          Let's keep track of your billings every shopping
+          Let's keep track of your billings
         </span>
       </h1>
     </div>

@@ -3,20 +3,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { signIn, signOut, useSessions, getProviders, useSession } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  useSessions,
+  getProviders,
+  useSession,
+} from "next-auth/react";
 
 const Nav = () => {
-  const { data: session } = useSession()
-  const [providers, setProviders] = useState(null)
-  const [toggleDropdown, setToggleDropdown] = useState(null)
+  const { data: session } = useSession();
+  const [providers, setProviders] = useState(null);
+  const [toggleDropdown, setToggleDropdown] = useState(null);
 
   useEffect(() => {
     const setupProviders = async () => {
-      const response = await getProviders()
-      setProviders(response)
+      const response = await getProviders();
+      setProviders(response);
     };
 
-    setupProviders()
+    setupProviders();
   });
 
   return (

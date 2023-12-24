@@ -139,6 +139,10 @@
   @apply font-satoshi font-semibold text-base text-gray-700 flex justify-center items-center cursor-pointer border border-black px-4 py-2 rounded-full;
 }
 
+[id^="item-"] {
+  margin-top: 9px !important;
+}
+
 /* Nav Component */
 .logo_text {
   @apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide;
