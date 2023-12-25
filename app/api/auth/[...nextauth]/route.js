@@ -1,8 +1,8 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google"
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 
-import { connectToDatabase } from "@utils/database";
-import User from "@models/user";
+import User from '@models/user';
+import { connectToDatabase } from '@utils/database';
 
 const handler = NextAuth({
     providers: [
@@ -11,35 +11,33 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         })
     ],
-    callback: {
+    callbacks: {
         async session({ session }) {
-            const sessionUser = await User.findOne({ email: session.user.email })
-            session.user.id = sessionUser._id.toString()
+
+            const sessionUser = await User.findOne({ email: session.user.email });
+            session.user.id = sessionUser._id.toString();
 
             return session
         },
-        async signIn({ account, profile, user, credentials }) {
+        async signIn({ user, account, profile, email, credentials }) {
             try {
-                await connectToDatabase()
-
-                // check if existed user
-                const userExist = await User.findOne({ email: profile.email })
-
-                // else, create new user
-                if (!userExist) {
-                    const name = `${profile.given_name} ${profile.family_name}`
-                    const user = {
-                        email: profile.email,
-                        username: name,
-                        image: profile.picture
-                    }
-
-                    await User.create(user)
+                await connectToDatabase();
+                const userExists = await User.findOne({ email: profile?.email });
+                // if not, create a new document and save user in MongoDB
+                if (userExists === null) {
+                    await User.create({
+                        email: profile?.email,
+                        username: profile?.name.replace(/\s+/g, '').toLowerCase(),
+                        image: user.image
+                    })
                 }
 
+                return true
             } catch (error) {
-                console.log(error)
+                console.log(error);
+                return false
             }
+
         }
     }
 })

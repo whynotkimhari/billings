@@ -42,8 +42,8 @@ export const generateNextForm = (currentIDnotEdited, date) => {
     }
 }
 
-export const resetFormUI = () => {
-    document.getElementById("nameID").value = ""
-    document.getElementById("priceID").value = ""
-    document.getElementById("quantityID").value = ""
+export const setFormUI = (name = "", price = "", quantity = "") => {
+    document.getElementById("nameID").value = name
+    document.getElementById("priceID").value = price
+    document.getElementById("quantityID").value = quantity
 }

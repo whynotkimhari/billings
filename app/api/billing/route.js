@@ -1,6 +1,8 @@
 import { connectToDatabase } from "@utils/database"
 import Billing from "@models/billing"
 
+// This API for getting all items
+
 export const GET = async req => {
     try {
         if (req.method !== 'GET')
@@ -13,6 +15,6 @@ export const GET = async req => {
         
     } catch (error) {
         console.log(error)
-        return new Response("Failed to get all items bill", { status: 500 })
+        return new Response({ message: "Failed to get all items bill"}, { status: 500 })
     }
 }

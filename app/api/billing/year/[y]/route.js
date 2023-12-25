@@ -1,6 +1,8 @@
 import { connectToDatabase } from "@utils/database"
 import Billing from "@models/billing"
 
+// This API for getting items in the YEAR
+
 export const GET = async req => {
     try {
         

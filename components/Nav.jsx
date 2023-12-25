@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import {
   signIn,
   signOut,
-  useSessions,
   getProviders,
   useSession,
 } from "next-auth/react";

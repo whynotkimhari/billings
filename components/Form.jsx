@@ -1,8 +1,7 @@
 "use client"
 
-import Link from "next/link"
 import { useState } from "react"
-import { CURRENCY, initFormData, checkValidForm, getData, generateDiv, generateNextForm, resetFormUI } from "@utils/form_tools"
+import { CURRENCY, initFormData, checkValidForm, getData, generateDiv, generateNextForm, setFormUI } from "@utils/form_tools"
 
 let isEdit = false
 let editedID = -1
@@ -15,7 +14,6 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
     const currentFormData = !isEdit ? getData(formData.id) : getData(editedID)
 
     let currentBillings = billings
-    // console.log(currentFormData, currentBillings)
     console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
 
     if (checkValidForm(currentFormData)) {
@@ -51,9 +49,8 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
 
           const id = Number(e.target.dataset.id)
           const editedItem = currentBillings.filter(i => i.id === id)[0]
-          document.getElementById("nameID").value = editedItem.itemName
-          document.getElementById("priceID").value = editedItem.itemPrice
-          document.getElementById("quantityID").value = editedItem.itemQuantity
+
+          setFormUI(editedItem.itemName, editedItem.itemPrice, editedItem.itemQuantity)
           isEdit = true
           editedID = id
           currentBillings = currentBillings.filter(i => i.id !== id)
@@ -76,7 +73,7 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
       setBillings(currentBillings)
 
       // Clear the form data for the next entry
-      resetFormUI()
+      setFormUI()
       
       // reset variable
       isEdit = false
