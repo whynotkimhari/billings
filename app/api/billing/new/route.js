@@ -2,9 +2,10 @@ import { connectToDatabase } from "@utils/database"
 import Billing from "@models/billing"
 import User from "@models/user";
 export const POST = async req => {
-    const { userEmail, date, itemID, itemName, itemPrice, itemQuantity } = await req.json()
+    if(req.method !== "POST")
+        return new Response({ message: "Not supported method!" }, { status: 405 })
 
-    // console.log(userID, date, itemID, itemName, itemPrice, itemQuantity)
+    const { userEmail, date, itemID, itemName, itemPrice, itemQuantity } = await req.json()
 
     try {
         await connectToDatabase()

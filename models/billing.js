@@ -27,6 +27,6 @@ const BillingSchema = new Schema({
     }
 })
 
-const Billing = models.Billing || model('Billing', BillingSchema)
+const Billing = models?.Billing || model('Billing', BillingSchema)
 
 export default Billing

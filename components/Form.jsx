@@ -1,6 +1,7 @@
+"use client"
+
 import Link from "next/link"
 import { useState } from "react"
-
 import { CURRENCY, initFormData, checkValidForm, getData, generateDiv, generateNextForm, resetFormUI } from "@utils/form_tools"
 
 let isEdit = false
@@ -8,54 +9,58 @@ let editedID = -1
 let currentIDnotEdited = 0
 
 const Form = ({ billings, setBillings, handleSubmit }) => {
-  let [formData, setFormData] = useState(initFormData)
+  const [formData, setFormData] = useState(initFormData)
 
   const handleAddButtonClick = () => {
-    formData = document.getElementById("isEdited").value === "false" ? getData(formData.id) : getData(Number(document.getElementById("editedID").value))
+    const currentFormData = !isEdit ? getData(formData.id) : getData(editedID)
 
-    if (checkValidForm(formData)) {
+    let currentBillings = billings
+    // console.log(currentFormData, currentBillings)
+    console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
+
+    if (checkValidForm(currentFormData)) {
       // terminate date input
       document.getElementById("dateID").style.display = "none";
-      document.getElementById("items-date").innerText = `Date: ${formData.date}`
+      document.getElementById("items-date").innerText = `Date: ${currentFormData.date}`
 
       // push data to memory
-      billings.push(formData)
-      setBillings(billings)
+      currentBillings.push(currentFormData)
+      // setBillings(billings)
 
-      console.log("Registered Items after Adding: ", billings)
+      console.log("Registered Items after Adding: ", currentBillings)
 
       // push data to user view
-      document.getElementById("items").innerHTML += generateDiv(formData, CURRENCY)
+      document.getElementById("items").innerHTML += generateDiv(currentFormData, CURRENCY)
 
       // add function for each item
       // + Delete
       // + Edit
       document.querySelectorAll('[id^="item-"]').forEach(item => {
         const handleDeleteButton = e => {
-          const id = Number(e.target.dataset.id)
-          billings = billings.filter(i => i.id !== id)
-          setBillings(billings)
-
-          console.log("Registered Items after Deleting: ", billings)
+          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
+          
+          currentBillings = currentBillings.filter(i => i.id !== Number(e.target.dataset.id))
+          setBillings(currentBillings)
           document.getElementById(`item-${id}`).remove()
+
+          console.log("Registered Items after Deleting: ", currentBillings)
         }
 
         const handleEditButton = e => {
+          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
+
           const id = Number(e.target.dataset.id)
-
-          const editedItem = billings.filter(i => i.id === id)[0]
-
+          const editedItem = currentBillings.filter(i => i.id === id)[0]
           document.getElementById("nameID").value = editedItem.itemName
           document.getElementById("priceID").value = editedItem.itemPrice
           document.getElementById("quantityID").value = editedItem.itemQuantity
-          
           isEdit = true
           editedID = id
-
-          billings = billings.filter(i => i.id !== id)
-          setBillings(billings)
-          console.log("Registered Items after taking item to Edit: ", billings)
+          currentBillings = currentBillings.filter(i => i.id !== id)
+          setBillings(currentBillings)
           document.getElementById(`item-${id}`).remove()
+
+          console.log("Registered Items after taking item to Edit: ", currentBillings)
         }
 
         item.querySelector('.del-btn').addEventListener('click', handleDeleteButton)
@@ -65,8 +70,10 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
       // prepare next form
       if(!isEdit) currentIDnotEdited++
 
-      const nextFormData = generateNextForm(currentIDnotEdited, formData.date)
+      const nextFormData = generateNextForm(currentIDnotEdited, currentFormData.date)
+
       setFormData(nextFormData)
+      setBillings(currentBillings)
 
       // Clear the form data for the next entry
       resetFormUI()
@@ -106,8 +113,6 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
           >
             Date: {formData.date}
           </label>
-          <input type="text" defaultValue={isEdit} hidden id="isEdited" />
-          <input type="text" defaultValue={editedID} hidden id="editedID" />
           <input type="date" name="date" className="form_input" id="dateID" />
           <label
             htmlFor="itemName"

@@ -1,4 +1,4 @@
-
+import MainChart from "@components/MainChart";
 
 const Home = () => {
   return (
@@ -11,6 +11,7 @@ const Home = () => {
           Let's keep track of your billings
         </span>
       </h1>
+      <MainChart />
     </div>
   );
 };
