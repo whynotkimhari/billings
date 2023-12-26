@@ -50,28 +50,23 @@ const Sub = () => {
 
 const MainChart = ({ id }) => {
   const year = new Date().getFullYear();
-  useEffect(() => {
-    const fetchBilling = async () => {
-      const rs = await fetch("/api/billing/");
-      let data = await rs.json();
 
-      data = data.filter(
-        (item) =>
-          id == item.creator._id && new Date(item.date).getFullYear() === year
-      );
+  id &&
+    useEffect(() => {
+      const fetchBilling = async () => {
+        const data = await fetch(`/api/billing/user/${id}/year/${year}`).then(
+          (response) => response.json()
+        );
 
-      data.forEach((item) => {
-        const month = new Date(item.date).getMonth() + 1;
-        setyear(new Date(item.date).getFullYear());
+        data.forEach((item) => {
+          MONTHS[item.month - 1].shopping_date.indexOf(item.day) === -1 &&
+            MONTHS[item.month - 1].shopping_date.push(item.day);
+          MONTHS[item.month - 1].total += item.itemPrice * item.itemQuantity;
+        });
+      };
 
-        MONTHS[month - 1].shopping_date.indexOf(item.date) === -1 &&
-          MONTHS[month - 1].shopping_date.push(item.date);
-        MONTHS[month - 1].total += item.itemPrice * item.itemQuantity;
-      });
-    };
-
-    fetchBilling();
-  }, []);
+      fetchBilling();
+    }, []);
 
   const checkMonth = checkMONTHS(MONTHS);
 

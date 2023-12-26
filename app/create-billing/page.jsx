@@ -15,15 +15,18 @@ const CreateBilling = () => {
     event.preventDefault();
 
     billings.forEach(async (billing) => {
+      const date = new Date(billing.date);
       const body = {
         userID: session?.user.id,
-        date: billing.date,
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
         itemID: billing.id,
         itemName: billing.itemName,
         itemPrice: billing.itemPrice,
         itemQuantity: billing.itemQuantity,
       };
-      
+
       try {
         const rs = await fetch("api/billing/new", {
           method: "POST",

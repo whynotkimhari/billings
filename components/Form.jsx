@@ -1,87 +1,115 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { CURRENCY, initFormData, checkValidForm, getData, generateDiv, generateNextForm, setFormUI } from "@utils/form_tools"
+import { useState } from "react";
+import {
+  CURRENCY,
+  initFormData,
+  checkValidForm,
+  getData,
+  generateDiv,
+  generateNextForm,
+  setFormUI,
+} from "@utils/form_tools";
 
-let isEdit = false
-let editedID = -1
-let currentIDnotEdited = 0
+let isEdit = false;
+let editedID = -1;
+let currentIDnotEdited = 0;
 
 const Form = ({ billings, setBillings, handleSubmit }) => {
-  const [formData, setFormData] = useState(initFormData)
+  const [formData, setFormData] = useState(initFormData);
 
   const handleAddButtonClick = () => {
-    const currentFormData = !isEdit ? getData(formData.id) : getData(editedID)
+    const currentFormData = !isEdit ? getData(formData.id) : getData(editedID);
 
-    let currentBillings = billings
-    console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
+    let currentBillings = billings;
+    console.log("currentID: ", isEdit ? editedID : currentIDnotEdited);
 
     if (checkValidForm(currentFormData)) {
       // terminate date input
       document.getElementById("dateID").style.display = "none";
-      document.getElementById("items-date").innerText = `Date: ${currentFormData.date}`
+      document.getElementById(
+        "items-date"
+      ).innerText = `Date: ${currentFormData.date}`;
 
       // push data to memory
-      currentBillings.push(currentFormData)
+      currentBillings.push(currentFormData);
       // setBillings(billings)
 
-      console.log("Registered Items after Adding: ", currentBillings)
+      console.log("Registered Items after Adding: ", currentBillings);
 
       // push data to user view
-      document.getElementById("items").innerHTML += generateDiv(currentFormData, CURRENCY)
+      document.getElementById("items").innerHTML += generateDiv(
+        currentFormData,
+        CURRENCY
+      );
 
       // add function for each item
       // + Delete
       // + Edit
-      document.querySelectorAll('[id^="item-"]').forEach(item => {
-        const handleDeleteButton = e => {
-          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
-          
-          currentBillings = currentBillings.filter(i => i.id !== Number(e.target.dataset.id))
-          setBillings(currentBillings)
-          document.getElementById(`item-${id}`).remove()
+      document.querySelectorAll('[id^="item-"]').forEach((item) => {
+        const handleDeleteButton = (e) => {
+          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited);
 
-          console.log("Registered Items after Deleting: ", currentBillings)
-        }
+          currentBillings = currentBillings.filter(
+            (i) => i.id !== Number(e.target.dataset.id)
+          );
+          setBillings(currentBillings);
+          document.getElementById(`item-${id}`).remove();
 
-        const handleEditButton = e => {
-          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited)
+          console.log("Registered Items after Deleting: ", currentBillings);
+        };
 
-          const id = Number(e.target.dataset.id)
-          const editedItem = currentBillings.filter(i => i.id === id)[0]
+        const handleEditButton = (e) => {
+          console.log("currentID: ", isEdit ? editedID : currentIDnotEdited);
 
-          setFormUI(editedItem.itemName, editedItem.itemPrice, editedItem.itemQuantity)
-          isEdit = true
-          editedID = id
-          currentBillings = currentBillings.filter(i => i.id !== id)
-          setBillings(currentBillings)
-          document.getElementById(`item-${id}`).remove()
+          const id = Number(e.target.dataset.id);
+          const editedItem = currentBillings.filter((i) => i.id === id)[0];
 
-          console.log("Registered Items after taking item to Edit: ", currentBillings)
-        }
+          setFormUI(
+            editedItem.itemName,
+            editedItem.itemPrice,
+            editedItem.itemQuantity
+          );
+          isEdit = true;
+          editedID = id;
+          currentBillings = currentBillings.filter((i) => i.id !== id);
+          setBillings(currentBillings);
+          document.getElementById(`item-${id}`).remove();
 
-        item.querySelector('.del-btn').addEventListener('click', handleDeleteButton)
-        item.querySelector('.edit-btn').addEventListener('click', handleEditButton)
-      })
+          console.log(
+            "Registered Items after taking item to Edit: ",
+            currentBillings
+          );
+        };
+
+        item
+          .querySelector(".del-btn")
+          .addEventListener("click", handleDeleteButton);
+        item
+          .querySelector(".edit-btn")
+          .addEventListener("click", handleEditButton);
+      });
 
       // prepare next form
-      if(!isEdit) currentIDnotEdited++
+      if (!isEdit) currentIDnotEdited++;
 
-      const nextFormData = generateNextForm(currentIDnotEdited, currentFormData.date)
+      const nextFormData = generateNextForm(
+        currentIDnotEdited,
+        currentFormData.date
+      );
 
-      setFormData(nextFormData)
-      setBillings(currentBillings)
+      setFormData(nextFormData);
+      setBillings(currentBillings);
 
       // Clear the form data for the next entry
-      setFormUI()
-      
+      setFormUI();
+
       // reset variable
-      isEdit = false
-      editedID = -1
-      
+      isEdit = false;
+      editedID = -1;
     } else {
       // will use Sweet alert here later !
-      alert("Please fill out all the box!")
+      alert("Please fill out all the box!");
     }
   };
 
@@ -89,7 +117,9 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
     <section className="w-full md:flex block">
       <div className="w-full max-w-full flex-start flex-col mr-1">
         <h1 className="head_text text-left">
-          <span className="blue_gradient">{isEdit ? "Edit" : "Create"} Billing</span>
+          <span className="blue_gradient">
+            {isEdit ? "Edit" : "Create"} Billing
+          </span>
         </h1>
         <p className="desc text-left max-w-md">
           Let's {isEdit ? "edit" : "create"} your{isEdit ? "" : " new"} billing
@@ -176,7 +206,10 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
           id="items"
           className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
         >
-          <label className="font-satoshi font-semibold text-base text-gray-700" id="items-date">
+          <label
+            className="font-satoshi font-semibold text-base text-gray-700"
+            id="items-date"
+          >
             Date:
           </label>
         </form>

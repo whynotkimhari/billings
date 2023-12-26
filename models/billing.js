@@ -5,9 +5,17 @@ const BillingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    date: {
-        type: String,
-        required: [true, 'date is required']
+    day: {
+        type: Number,
+        required: [true, 'day is required']
+    },
+    month: {
+        type: Number,
+        required: [true, 'month is required']
+    },
+    year: {
+        type: Number,
+        required: [true, 'year is required']
     },
     itemID: {
         type: Number,

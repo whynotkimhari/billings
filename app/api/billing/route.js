@@ -12,9 +12,9 @@ export const GET = async req => {
         const items = await Billing.find({}).populate('creator')
 
         return new Response(JSON.stringify(items), { status: 201 })
-        
+
     } catch (error) {
         console.log(error)
-        return new Response({ message: "Failed to get all items bill"}, { status: 500 })
+        return new Response({ message: "Failed to get all items bill" }, { status: 500 })
     }
 }

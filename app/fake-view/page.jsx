@@ -3,7 +3,6 @@
 import MainChart from "@components/MainChart";
 
 const FakeView = () => {
-
   return (
     <section>
       <h1 className="head_text text-center">

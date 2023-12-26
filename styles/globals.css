@@ -166,5 +166,13 @@
 
 /* Sub  */
 .sub_btn {
-  @apply black_btn mx-auto my-1
+  @apply black_btn mx-auto my-1;
+}
+
+ul li {
+  @apply mt-1;
+}
+
+strong {
+  color: red;
 }
