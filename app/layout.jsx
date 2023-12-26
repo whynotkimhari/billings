@@ -1,10 +1,11 @@
 import "@styles/globals.css";
 
 import Nav from "@components/Nav";
+import Footer from "@components/Footer";
 import Provider from "@components/Provider";
 
 export const metadata = {
-  title: "Billings Management",
+  title: "Billin' | Your Billings Management",
 };
 
 const layout = ({ children }) => {
@@ -16,6 +17,7 @@ const layout = ({ children }) => {
           <main className="app">
             <Nav />
             {children}
+            <Footer />
           </main>
         </Provider>
       </body>

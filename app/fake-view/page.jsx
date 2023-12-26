@@ -1,10 +1,8 @@
 "use client";
 
 import MainChart from "@components/MainChart";
-import { useSession } from "next-auth/react";
 
-const Home = () => {
-  const ss = useSession();
+const FakeView = () => {
 
   return (
     <section>
@@ -16,9 +14,9 @@ const Home = () => {
           Let's keep track of your billings
         </span>
       </h1>
-      <MainChart id={ss.data?.user?.id} />
+      <MainChart id={undefined} />
     </section>
   );
 };
 
-export default Home;
+export default FakeView;
