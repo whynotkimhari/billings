@@ -1,7 +1,6 @@
 
 import { connectToDatabase } from "@utils/database"
 import Billing from "@models/billing"
-import { ObjectId } from "mongodb"
 
 // This API for getting items in the MONTH by user
 
@@ -15,7 +14,7 @@ export const GET = async (req, { params }) => {
             return new Response({ message: 'Undefined user' }, { status: 404 })
 
         await connectToDatabase()
-        const items = await Billing.find({ creator: new ObjectId(params.userID), month: Number(params.m) }).populate('creator')
+        const items = await Billing.find({ creator: params.userID, month: Number(params.m) }).populate('creator')
 
         return new Response(JSON.stringify(items), { status: 201 })
 

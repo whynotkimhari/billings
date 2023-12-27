@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import { MONTHS, LABELS, checkMONTHS } from "@utils/main_chart_tools";
-import faker from "faker";
+import {
+  MONTHS,
+  LABELS,
+  checkMONTHS,
+  getFakeData,
+} from "@utils/main_chart_tools";
 import {
   Chart as ChartJS,
-  BarController,
+  // BarController,
   BarElement,
   CategoryScale,
   LinearScale,
-  LineController,
+  // LineController,
   LineElement,
   PointElement,
   Legend,
@@ -20,11 +24,11 @@ import { Line } from "react-chartjs-2";
 import Link from "next/link";
 
 ChartJS.register(
-  BarController,
+  // BarController,
   BarElement,
   CategoryScale,
   LinearScale,
-  LineController,
+  // LineController,
   LineElement,
   PointElement,
   Legend,
@@ -99,12 +103,7 @@ const MainChart = ({ id }) => {
   const dataset1 = MONTHS.map((m) => m.shopping_date.length);
   const dataset2 = MONTHS.map((m) => m.total);
 
-  const fakeDataset1 = MONTHS.map(() =>
-    faker.datatype.number({ min: 0, max: 20, stepSize: 1 })
-  );
-  const fakeDataset2 = MONTHS.map(() =>
-    faker.datatype.number({ min: 0, max: 50000, stepSize: 1 })
-  );
+  const [fakeDataset1, fakeDataset2] = getFakeData();
 
   const data = {
     labels: LABELS,
