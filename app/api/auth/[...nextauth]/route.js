@@ -14,7 +14,7 @@ const handler = NextAuth({
     callbacks: {
         async session({ session }) {
 
-            const sessionUser = session && session?.user && await User.findOne({ email: session.user.email });
+            const sessionUser = session && session?.user && await User.findOne({ email: session.user.email }).maxTimeMS(20000);
             session.user.id = sessionUser._id.toString();
 
             return session

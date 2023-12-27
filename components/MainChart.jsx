@@ -9,11 +9,9 @@ import {
 } from "@utils/main_chart_tools";
 import {
   Chart as ChartJS,
-  // BarController,
   BarElement,
   CategoryScale,
   LinearScale,
-  // LineController,
   LineElement,
   PointElement,
   Legend,
@@ -21,36 +19,18 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import Link from "next/link";
+import { Menu } from "./Menu";
 
 ChartJS.register(
-  // BarController,
   BarElement,
   CategoryScale,
   LinearScale,
-  // LineController,
   LineElement,
   PointElement,
   Legend,
   Title,
   Tooltip
 );
-
-const Sub = () => {
-  return (
-    <div className="flex justify-center flex-col">
-      <Link href="/create-billing" className="sub_btn">
-        Create a billing
-      </Link>
-      <Link href="/profile" className="sub_btn">
-        View my profile
-      </Link>
-      <Link href="/fake-view" className="sub_btn">
-        View fake data
-      </Link>
-    </div>
-  );
-};
 
 const MainChart = ({ id }) => {
   const year = new Date().getFullYear();
@@ -70,7 +50,7 @@ const MainChart = ({ id }) => {
       };
 
       fetchBilling();
-    }, []);
+    });
 
   const checkMonth = checkMONTHS(MONTHS);
 
@@ -134,7 +114,7 @@ const MainChart = ({ id }) => {
           You do not have any activity yet
         </h1>
       )}
-      {checkMonth || !id ? <Line data={data} options={options} /> : <Sub />}
+      {checkMonth || !id ? <Line data={data} options={options} /> : <Menu />}
     </section>
   );
 };

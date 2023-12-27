@@ -14,14 +14,13 @@ const MyProfile = () => {
       if (session?.user) {
         let data = await fetch(`/api/billing/user/${session?.user.id}`);
         data = await data.json();
-        data = minifyData(data);
-        data = groupData(data);
+        data = groupData(minifyData(data));
         setItems((prev) => ({ ...prev, ...data }));
       }
     };
 
     fetchBilling();
-  }, [session]);
+  }, [session?.user]);
 
   return (
     <Profile name="My" desc="Welcome to your profile page" items={items} />

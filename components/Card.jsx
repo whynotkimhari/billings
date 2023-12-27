@@ -1,7 +1,6 @@
-"use client";
 import { toStr } from "@utils/card_tools";
 
-const Card = ({ data, year, month }) => {
+const Card = ({ data, year, month, rate }) => {
   const list = Object.values(data).flat(1);
 
   const shoppingTimes = list.length;
@@ -17,13 +16,18 @@ const Card = ({ data, year, month }) => {
       </h1>
       <ul className="text-center">
         <li>
-          Shopping: <strong>{shoppingTimes}</strong> times
+          Went shopping: <strong>{shoppingTimes}</strong> times
         </li>
         <li>
-          Total spend: <strong>{totalSpending}</strong> forints
+          Total spending is: <strong>{totalSpending}</strong> forints
         </li>
         <li>
-          Appr: <strong>{totalSpending}</strong> vnd
+          Approximately:{" "}
+          <strong>{Math.ceil(rate * totalSpending).toLocaleString()}</strong>{" "}
+          vnd
+        </li>
+        <li className="border border-black rounded-full mx-5 cursor-pointer hover:bg-black hover:text-white transition-all">
+          View details in {toStr(month)} {year}
         </li>
       </ul>
     </div>
