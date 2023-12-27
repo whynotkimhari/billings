@@ -9,7 +9,7 @@ import {
   generateDiv,
   generateNextForm,
   setFormUI,
-} from "@utils/form_tools";
+} from "@utils/formTools";
 
 let isEdit = false;
 let editedID = -1;

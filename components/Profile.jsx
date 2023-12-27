@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Card from "./Card";
+import YearView from "./YearView";
 
-const Profile = ({ name, desc, items }) => {
+const Profile = ({ name, desc, items, userID }) => {
   const [rate, setRate] = useState({});
   useEffect(() => {
     const fetchRate = async () => {
@@ -27,11 +27,12 @@ const Profile = ({ name, desc, items }) => {
       <div className="flex justify-around mt-4 flex-wrap">
         {Object.keys(items).map((year) => {
           return Object.keys(items[year]).map((month) => (
-            <Card
+            <YearView
               data={items[year][month]}
               year={year}
               month={month}
               rate={rate}
+              userID={userID}
             />
           ));
         })}

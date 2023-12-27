@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@utils/database"
+import { connectToDatabase } from "@utils/databaseTools"
 import Billing from "@models/billing"
 
 // This API for creating new item

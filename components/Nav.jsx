@@ -9,7 +9,7 @@ import {
   getProviders,
   useSession,
 } from "next-auth/react";
-import { mainPageHref } from "@utils/nav_tools";
+import { mainPageHref } from "@utils/navTools";
 
 const Nav = () => {
   const { data: session } = useSession();

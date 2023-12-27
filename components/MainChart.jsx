@@ -6,7 +6,7 @@ import {
   LABELS,
   checkMONTHS,
   getFakeData,
-} from "@utils/main_chart_tools";
+} from "@utils/mainChartTools";
 import {
   Chart as ChartJS,
   BarElement,
