@@ -3,13 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import {
-  signIn,
-  signOut,
-  getProviders,
-  useSession,
-} from "next-auth/react";
+import { signIn, signOut, getProviders, useSession } from "next-auth/react";
 import { mainPageHref } from "@utils/navTools";
+import { language, dictionary, changeLanguage } from "@utils/global";
 
 const Nav = () => {
   const { data: session } = useSession();
@@ -39,15 +35,36 @@ const Nav = () => {
       </Link>
 
       {/* Desktop navigation */}
-      <div className="sm:flex hidden">
+      <div className="lg:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="/create-billing" className="black_btn">
-              Create Billing
+            <button
+              onClick={() => changeLanguage(language === "vn" ? "en" : "vn")}
+              className="black_btn"
+            >
+              e
+            </button>
+
+            <Link href="/fake-view" className="black_btn">
+              {dictionary[language].nav_link_1}
             </Link>
 
-            <button type="button" onClick={() => {signOut().then(() => window.location.href = mainPageHref)}} className="outline_btn">
-              Sign Out
+            <Link href="/profile" className="black_btn">
+              {dictionary[language].nav_link_2}
+            </Link>
+
+            <Link href="/create-billing" className="black_btn">
+              {dictionary[language].nav_link_3}
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => {
+                signOut().then(() => (window.location.href = mainPageHref));
+              }}
+              className="outline_btn"
+            >
+              {dictionary[language].nav_button_1}
             </button>
 
             <Link href="/profile">
@@ -70,7 +87,7 @@ const Nav = () => {
                   onClick={() => signIn(provider.id)}
                   className="black_btn"
                 >
-                  Sign In
+                  {dictionary[language].nav_button_2}
                 </button>
               ))}
           </>
@@ -78,7 +95,7 @@ const Nav = () => {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="sm:hidden flex relative">
+      <div className="lg:hidden flex relative">
         {session?.user ? (
           <div className="flex">
             <Image
@@ -93,11 +110,19 @@ const Nav = () => {
             {toggleDropdown && (
               <div className="dropdown">
                 <Link
+                  href="/fake-view"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  {dictionary[language].nav_link_1}
+                </Link>
+
+                <Link
                   href="/profile"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  My Billings
+                  {dictionary[language].nav_link_2}
                 </Link>
 
                 <Link
@@ -105,7 +130,7 @@ const Nav = () => {
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Create Billing
+                  {dictionary[language].nav_link_3}
                 </Link>
                 <button
                   type="button"
@@ -115,7 +140,7 @@ const Nav = () => {
                   }}
                   className="mt-5 w-full black_btn"
                 >
-                  Sign Out
+                  {dictionary[language].nav_button_1}
                 </button>
               </div>
             )}
@@ -130,7 +155,7 @@ const Nav = () => {
                   onClick={() => signIn(provider.id)}
                   className="black_btn"
                 >
-                  Sign In
+                  {dictionary[language].nav_button_2}
                 </button>
               ))}
           </>

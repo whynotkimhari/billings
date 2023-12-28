@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
-import { toStr, formatNumber } from "@utils/yearViewTools";
+import { formatNumber } from "@utils/yearViewTools";
 import { useRouter } from "next/navigation";
+import { language, dictionary } from "@utils/global";
 
 const YearView = ({ data, year, month, rate, userID }) => {
   const list = Object.values(data).flat(1);
@@ -23,25 +24,21 @@ const YearView = ({ data, year, month, rate, userID }) => {
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 mt-4 md:w-1/3">
       <h1 className="text-center sm:text-2xl text-xl font-bold">
-        {toStr(month)} {year}
+        {dictionary[language].yearview_h1(month, year)}
       </h1>
-      <ul className="text-center">
+      <ul className="text-center font-semibold">
+        <li>{dictionary[language].yearview_li_1(shoppingTimes)}</li>
+        <li>{dictionary[language].yearview_li_2(totalSpending)}</li>
         <li>
-          Went shopping: <strong>{shoppingTimes}</strong> times
-        </li>
-        <li>
-          Total spending is: <strong>{totalSpending}</strong> forint
-        </li>
-        <li>
-          Approximately:{" "}
-          <strong>{formatNumber(Math.ceil(rate * totalSpending))}</strong>{" "}
-          vnd
+          {dictionary[language].yearview_li_3(
+            formatNumber(Math.ceil(rate * totalSpending))
+          )}
         </li>
         <li
-          className="border border-black rounded-full p-1 cursor-pointer hover:bg-black hover:text-white transition-all inline-block"
+          className="font-bold border border-black rounded-full p-1 cursor-pointer hover:bg-black hover:text-white transition-all inline-block"
           onClick={handleViewDetails}
         >
-          View details in {month}/{year}
+          {dictionary[language].yearview_li_4(month, year)}
         </li>
       </ul>
     </div>

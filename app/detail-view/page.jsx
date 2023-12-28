@@ -3,11 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { minifyData, groupBy } from "@utils/profileTools";
-import { toStr, formatNumber } from "@utils/yearViewTools";
-import MonthView from "@components/MonthView";
-import { getDataForChart } from "@utils/monthViewTools";
-import { getOptions } from "@utils/mainChartTools";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +13,14 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+
+import { minifyData, groupBy } from "@utils/profileTools";
+import { formatNumber } from "@utils/yearViewTools";
+import MonthView from "@components/MonthView";
+import { getDataForChart } from "@utils/monthViewTools";
+import { getOptions } from "@utils/mainChartTools";
 import { Line } from "react-chartjs-2";
+import { dictionary, language } from "@utils/global";
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +42,7 @@ const DetailView = () => {
   const router = useRouter();
 
   if (!(month && year && userID && rate && totalSpending)) {
+    alert(dictionary[language].err_not_login)
     router.push("/");
   } else {
     const [billing, setBilling] = useState({});
@@ -64,17 +67,16 @@ const DetailView = () => {
     const data = getDataForChart(billing, month, year);
 
     return (
-      <section>
+      <section className="w-full">
         <div>
           <h1 className="text-center head_text">
-            Detailed billings in {toStr(month)}, {year}
+            {dictionary[language].detailview_h1(month, year)}
           </h1>
           <h2 className="text-center sm:text-2xl text-xl font-bold mt-1 text-red-500">
-            Total: {formatNumber(totalSpending)} huf ~{" "}
-            {formatNumber(Math.ceil(rate * totalSpending))} vnd
+            {dictionary[language].detailview_h2(formatNumber(totalSpending), formatNumber(Math.ceil(rate * totalSpending)))}
           </h2>
           <h2 className="text-center sm:text-2xl text-xl font-bold text-red-500">
-            Rate: 1 forint = {rate} vnd
+          {dictionary[language].profile_h2(rate)}
           </h2>
         </div>
         <div className="flex justify-center mt-4 flex-wrap">

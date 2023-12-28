@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Profile from "@components/Profile";
 import { groupData, minifyData } from "@utils/profileTools";
 import { useRouter } from "next/navigation";
+import { language, dictionary } from "@utils/global";
 
 const MyProfile = () => {
   const { data: session } = useSession();
@@ -12,7 +13,7 @@ const MyProfile = () => {
   const router = useRouter()
 
   if(session === null) {
-    alert("Please login first!")
+    alert(dictionary[language].err_not_login)
     router.push('/')
   }
 

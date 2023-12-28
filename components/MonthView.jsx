@@ -1,6 +1,7 @@
 "use client";
 
 import { formatNumber } from "@utils/yearViewTools";
+import { dictionary, language } from "@utils/global";
 
 const MonthView = ({ day, month, year, data, rate }) => {
   const sumDay = data.reduce(
@@ -24,9 +25,13 @@ const MonthView = ({ day, month, year, data, rate }) => {
             </li>
           );
         })}
-        <li className="font-bold">Total: {formatNumber(sumDay)} forint</li>
         <li className="font-bold">
-          Apprx: {formatNumber(Math.ceil(sumDay * rate))} vnd
+          {dictionary[language].monthview_li_1(formatNumber(sumDay))}
+        </li>
+        <li className="font-bold">
+          {dictionary[language].monthview_li_2(
+            formatNumber(Math.ceil(sumDay * rate))
+          )}
         </li>
       </ul>
     </div>

@@ -5,11 +5,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
+import { dictionary, language } from "@utils/global";
 
 const CreateBilling = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  let [billings, setBillings] = useState([]);
+  const [billings, setBillings] = useState([]);
 
   const createBillings = async (event) => {
     event.preventDefault();
@@ -39,13 +40,21 @@ const CreateBilling = () => {
       }
     });
   };
-  return (
-    <Form
-      billings={billings}
-      setBillings={setBillings}
-      handleSubmit={createBillings}
-    />
-  );
+
+  if (session !== null) {
+    return (
+      <Form
+        billings={billings}
+        setBillings={setBillings}
+        handleSubmit={createBillings}
+      />
+    );
+  }
+
+  else {
+    alert(dictionary[language].err_empty_field)
+    router.push('/')
+  }
 };
 
 export default CreateBilling;

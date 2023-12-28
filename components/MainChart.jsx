@@ -1,12 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getDataForChart,
-  getOptions,
-  getMonths,
-  checkMONTHS,
-} from "@utils/mainChartTools";
 
 import {
   Chart as ChartJS,
@@ -21,6 +15,14 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Menu } from "./Menu";
+
+import {
+  getDataForChart,
+  getOptions,
+  getMonths,
+  checkMONTHS,
+} from "@utils/mainChartTools";
+import { dictionary, language } from "@utils/global";
 
 ChartJS.register(
   BarElement,
@@ -52,14 +54,14 @@ const MainChart = ({ id }) => {
   }, [id]);
 
   const checkMonth = checkMONTHS(months);
-  const options = getOptions(id ? `Your activity in ${year}` : "THIS IS A FAKE DATA!");
+  const options = getOptions(dictionary[language].mainchart_title(id, year));
   const data = getDataForChart(months, checkMonth, id);
 
   return (
     <section>
       {!checkMonth && id && (
         <h1 className="my-10 text-xl font-extrabold text-center">
-          You do not have any activity yet
+          {dictionary[language].err_no_activity}
         </h1>
       )}
       {checkMonth || !id ? <Line data={data} options={options} /> : <Menu />}

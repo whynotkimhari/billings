@@ -1,3 +1,5 @@
+import { dictionary, language } from "./global"
+
 export const CURRENCY = "HUF"
 export const initFormData = {
     id: 0,
@@ -26,8 +28,8 @@ export const generateDiv = (formData, CURRENCY) => {
             <label class="font-satoshi font-semibold text-base text-gray-700 w-full flex rounded-lg outline-0">
             ${formData.itemName} : ${formData.itemPrice} x ${formData.itemQuantity} = ${formData.itemQuantity * formData.itemPrice} ${CURRENCY}
             </label>
-            <span class="form_btn mr-1 edit-btn" data-id=${formData.id}>Edit</span>
-            <span class="form_btn del-btn" data-id=${formData.id}>Delete</span>
+            <span class="form_btn mr-1 edit-btn" data-id=${formData.id}>${dictionary[language].form_edit_btn}</span>
+            <span class="form_btn del-btn" data-id=${formData.id}>${dictionary[language].form_delete_btn}</span>
         </div>
     `
 }

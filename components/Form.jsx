@@ -10,6 +10,7 @@ import {
   generateNextForm,
   setFormUI,
 } from "@utils/formTools";
+import { dictionary, language } from "@utils/global";
 
 let isEdit = false;
 let editedID = -1;
@@ -27,9 +28,9 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
     if (checkValidForm(currentFormData)) {
       // terminate date input
       document.getElementById("dateID").style.display = "none";
-      document.getElementById(
-        "items-date"
-      ).innerText = `Date: ${currentFormData.date}`;
+      document.getElementById("items-date").innerText = dictionary[
+        language
+      ].form_date(currentFormData.date);
 
       // push data to memory
       currentBillings.push(currentFormData);
@@ -53,7 +54,8 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
             (i) => i.id !== Number(e.target.dataset.id)
           );
           setBillings(currentBillings);
-          document.getElementById(`item-${id}`).remove();
+          
+          document.getElementById(`item-${Number(e.target.dataset.id)}`).remove();
 
           console.log("Registered Items after Deleting: ", currentBillings);
         };
@@ -117,11 +119,11 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
       <div className="w-full max-w-full flex-start flex-col mr-1">
         <h1 className="head_text text-left">
           <span className="blue_gradient">
-            {isEdit ? "Edit" : "Create"} Billing
+            {dictionary[language].form_h1_1(isEdit)}
           </span>
         </h1>
         <p className="desc text-left max-w-md">
-          Let's {isEdit ? "edit" : "create"} your{isEdit ? "" : " new"} billing
+          {dictionary[language].form_p_1(isEdit)}
         </p>
 
         <form
@@ -130,42 +132,42 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
         >
           <label>
             <span className="font-satoshi font-semibold text-base text-gray-700">
-              Your Billing
+              {dictionary[language].form_main_label}
             </span>
           </label>
           <label
             htmlFor="date"
             className="font-satoshi font-semibold text-base text-gray-700"
           >
-            Date: {formData.date}
+            {dictionary[language].form_date(formData.date)}
           </label>
           <input type="date" name="date" className="form_input" id="dateID" />
           <label
             htmlFor="itemName"
             className="font-satoshi font-semibold text-base text-gray-700"
           >
-            Item name:
+            {dictionary[language].form_item_name}
           </label>
           <input
             type="text"
             name="itemName"
             autoComplete="off"
             className="form_input"
-            placeholder="Your item name here"
+            placeholder={dictionary[language].form_item_name_phd}
             id="nameID"
           />
           <label
             htmlFor="itemPrice"
             className="font-satoshi font-semibold text-base text-gray-700"
           >
-            Item price:
+            {dictionary[language].form_item_price}
           </label>
           <input
             type="number"
             name="itemPrice"
             autoComplete="off"
             className="form_input"
-            placeholder="Please type the price"
+            placeholder={dictionary[language].form_item_price_phd}
             id="priceID"
             min="0"
           />
@@ -173,34 +175,40 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
             htmlFor="itemQuantity"
             className="font-satoshi font-semibold text-base text-gray-700"
           >
-            Item quantity:
+            {dictionary[language].form_item_quantity}
           </label>
           <input
             type="number"
             name="itemQuantity"
             autoComplete="off"
             className="form_input"
-            placeholder="Please type the quantity"
+            placeholder={dictionary[language].form_item_quantity_phd}
             id="quantityID"
             min="0"
           />
           <div className="flex justify-around">
             <input
               type="button"
-              value="Add"
+              value={dictionary[language].form_add_btn}
               className="form_btn"
               onClick={handleAddButtonClick}
             />
-            <input type="submit" value="Save" className="form_btn" />
+            <input type="submit" value={dictionary[language].form_save_btn} className="form_btn" />
           </div>
         </form>
       </div>
 
       <div className="w-full max-w-full ml-1">
         <h1 className="head_text text-right">
-          <span className="blue_gradient">Items</span>
+          <span className="blue_gradient">
+            {" "}
+            {dictionary[language].form_h1_2}
+          </span>
         </h1>
-        <p className="desc text-right max-w-md">See your registered items</p>
+        <p className="desc text-right max-w-md">
+          {" "}
+          {dictionary[language].form_p_2}
+        </p>
         <form
           id="items"
           className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
@@ -209,7 +217,7 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
             className="font-satoshi font-semibold text-base text-gray-700"
             id="items-date"
           >
-            Date:
+            {dictionary[language].form_date("")}
           </label>
         </form>
       </div>

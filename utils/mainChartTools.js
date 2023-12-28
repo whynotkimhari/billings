@@ -1,17 +1,7 @@
-const labels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-];
+import { toStr } from "./yearViewTools";
+import { language, dictionary } from "./global";
+
+const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -119,10 +109,10 @@ export const getDataForChart = (months, checkMonth, id) => {
     const dataset2 = months.map((m) => m.total);
     const [fakeDataset1, fakeDataset2] = getFakeData(labels);
     return {
-        labels,
+        labels: labels.map(m => dictionary[language].mainchart_label(m)),
         datasets: [
             {
-                label: "Shopping times",
+                label: dictionary[language].mainchart_data_label_1,
                 data: checkMonth ? dataset1 : !id ? fakeDataset1 : [],
                 borderColor: "rgb(255, 99, 132)",
                 backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -130,7 +120,7 @@ export const getDataForChart = (months, checkMonth, id) => {
                 type: "line",
             },
             {
-                label: "Total spending (HUF)",
+                label: dictionary[language].mainchart_data_label_2,
                 data: checkMonth ? dataset2 : !id ? fakeDataset2 : [],
                 borderColor: "rgb(53, 162, 235)",
                 backgroundColor: "rgba(53, 162, 235, 0.5)",

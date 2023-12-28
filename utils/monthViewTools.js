@@ -1,4 +1,4 @@
-import { toStr } from "./yearViewTools"
+import { dictionary, language } from "./global"
 
 const processingData = (data, month) => {
     let labels = []
@@ -20,7 +20,7 @@ export const getDataForChart = (data, month, year) => {
         labels,
         datasets: [
             {
-                label: `Spending in ${toStr(month)}, ${year}`,
+                label: dictionary[language].monthview_title(month, year),
                 data: dataset,
                 borderColor: "rgb(255, 99, 132)",
                 backgroundColor: "rgba(255, 99, 132, 0.5)",

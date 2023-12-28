@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import YearView from "./YearView";
+import { language, dictionary } from "@utils/global";
 
 const Profile = ({ name, items, userID }) => {
   const [rate, setRate] = useState(0);
@@ -22,10 +23,10 @@ const Profile = ({ name, items, userID }) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
-        <span className="orange_gradient">{name}'s profile</span>
+        <span className="orange_gradient">{dictionary[language].profile_h1(name)}</span>
       </h1>
       <h2 className="text-left sm:text-2xl text-xl font-bold text-red-500">
-        Today rate: 1 forint = {rate} vnd
+        {dictionary[language].profile_h2(rate)}
       </h2>
 
       <div className="flex justify-around mt-4 flex-wrap">
