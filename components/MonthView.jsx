@@ -1,9 +1,36 @@
-"use client"
+"use client";
 
-const MonthView = ({ data, rate }) => {
+import { formatNumber } from "@utils/yearViewTools";
+
+const MonthView = ({ day, month, year, data, rate }) => {
+  const sumDay = data.reduce(
+    (sum, item) => sum + item.itemPrice * item.itemQuantity,
+    0
+  );
   return (
-    <div>{rate}</div>
-  )
-}
+    <div className="w-full md:w-1/2 xl:w-1/4 lg:w-1/3 border border-black py-2 m-1 bg-cyan-50">
+      <h3 className="text-center font-semibold">
+        {day}/{month}/{year}
+      </h3>
+      <ul className="text-center font-semibold">
+        {data.map((item) => {
+          return (
+            <li>
+              <span className="text-red-500">{item.itemName}</span>:{" "}
+              {item.itemPrice} x {item.itemQuantity} ={" "}
+              <span className="text-green-500">
+                {item.itemPrice * item.itemQuantity}
+              </span>
+            </li>
+          );
+        })}
+        <li className="font-bold">Total: {formatNumber(sumDay)} forint</li>
+        <li className="font-bold">
+          Apprx: {formatNumber(Math.ceil(sumDay * rate))} vnd
+        </li>
+      </ul>
+    </div>
+  );
+};
 
-export default MonthView
+export default MonthView;

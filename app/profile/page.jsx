@@ -4,10 +4,17 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Profile from "@components/Profile";
 import { groupData, minifyData } from "@utils/profileTools";
+import { useRouter } from "next/navigation";
 
 const MyProfile = () => {
   const { data: session } = useSession();
   const [items, setItems] = useState({});
+  const router = useRouter()
+
+  if(session === null) {
+    alert("Please login first!")
+    router.push('/')
+  }
 
   useEffect(() => {
     const fetchBilling = async () => {
@@ -23,9 +30,9 @@ const MyProfile = () => {
     fetchBilling();
   }, [session?.user.id]);
 
-  return (
-    <Profile name="My" desc="Welcome to your profile page" items={items} userID={session?.user.id} />
-  );
+  if(session !== null && session !== undefined) {
+    return <Profile name={session?.user.name} items={items} userID={session?.user.id} />;
+  }
 };
 
 export default MyProfile;

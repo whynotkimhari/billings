@@ -33,7 +33,6 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
 
       // push data to memory
       currentBillings.push(currentFormData);
-      // setBillings(billings)
 
       console.log("Registered Items after Adding: ", currentBillings);
 

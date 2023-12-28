@@ -19,12 +19,12 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const getFakeData = (MONTHS) => {
+const getFakeData = (months) => {
     return [
-        MONTHS.map(() =>
+        months.map(() =>
             getRandomInt(0, 20)
         ),
-        MONTHS.map(() =>
+        months.map(() =>
             getRandomInt(0, 50000)
         )
     ]
@@ -86,7 +86,7 @@ const getInitMonths = () => {
 export const checkMONTHS = (months) =>
     months.filter(m => m.total !== 0).length && months.filter(m => m.shopping_date.length !== 0).length
 
-export const getOptions = (year, id) => {
+export const getOptions = (text = "") => {
     return {
         responsive: true,
         plugins: {
@@ -95,7 +95,7 @@ export const getOptions = (year, id) => {
             },
             title: {
                 display: true,
-                text: id ? `Your activity in ${year}` : "THIS IS A FAKE DATA!",
+                text,
             },
         },
         scales: {
@@ -117,7 +117,7 @@ export const getOptions = (year, id) => {
 export const getDataForChart = (months, checkMonth, id) => {
     const dataset1 = months.map((m) => m.shopping_date.length);
     const dataset2 = months.map((m) => m.total);
-    const [fakeDataset1, fakeDataset2] = getFakeData(months);
+    const [fakeDataset1, fakeDataset2] = getFakeData(labels);
     return {
         labels,
         datasets: [

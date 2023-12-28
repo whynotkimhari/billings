@@ -39,18 +39,20 @@ const MainChart = ({ id }) => {
 
   useEffect(() => {
     const fetchBilling = async () => {
-      const data = await fetch(`/api/billing/user/${id}/year/${year}`).then(
+      if(!id) return
+
+      const result = await fetch(`/api/billing/user/${id}/year/${year}`).then(
         (response) => response.json()
       );
 
-      setMonths(getMonths(data));
+      setMonths(getMonths(result));
     };
 
     fetchBilling();
   }, [id]);
 
   const checkMonth = checkMONTHS(months);
-  const options = getOptions(year, id);
+  const options = getOptions(id ? `Your activity in ${year}` : "THIS IS A FAKE DATA!");
   const data = getDataForChart(months, checkMonth, id);
 
   return (

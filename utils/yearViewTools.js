@@ -29,3 +29,12 @@ export const toStr = (month) => {
             return 'Unknown'
     }
 }
+
+export const formatNumber = (number) => {
+    let numberString = number.toString();
+    let parts = numberString.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    let formattedNumber = parts.join('.');
+
+    return formattedNumber;
+}
