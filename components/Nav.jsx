@@ -31,12 +31,10 @@ const Nav = () => {
   });
 
   return (
-
-    
     <nav className="flex-between w-full mb-8 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src="public\assets\images\logo.svg"
+          src="assets/icons/loader.svg"
           alt="logo"
           width={30}
           height={30}
