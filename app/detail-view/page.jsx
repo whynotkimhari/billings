@@ -11,10 +11,12 @@ import {
   Legend,
   Title,
   Tooltip,
+  LineController,
 } from "chart.js";
 
 ChartJS.register(
   CategoryScale,
+  LineController,
   LinearScale,
   LineElement,
   PointElement,

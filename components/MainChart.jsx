@@ -6,13 +6,13 @@ import {
   BarController,
   BarElement,
   CategoryScale,
-  BarController,
   LinearScale,
   LineElement,
   PointElement,
   Legend,
   Title,
   Tooltip,
+  LineController,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -20,7 +20,7 @@ ChartJS.register(
   BarController,
   BarElement,
   CategoryScale,
-  BarController,
+  LineController,
   LinearScale,
   LineElement,
   PointElement,
