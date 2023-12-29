@@ -1,8 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -47,7 +46,7 @@ const DetailView = () => {
 
   // Prevent unauthorized users from accessing
   if (!(month && year && userID && rate && totalSpending)) {
-    console.log(dictionary[language].err_not_login);
+    console.log(dictionary[language].err_not_login, "detail-view");
     router.push("/");
   } else {
     const [billing, setBilling] = useState({});
