@@ -42,12 +42,12 @@ const DetailView = () => {
   const router = useRouter();
 
   const { language } = useLanguage();
-  useEffect(() => {}, [language]);
+  useEffect(() => { }, [language]);
 
   // Prevent unauthorized users from accessing
   if (!(month && year && userID && rate && totalSpending)) {
     console.log(dictionary[language].err_not_login, "detail-view");
-    router.push("/");
+    useEffect(() => router.push("/"))
   } else {
     const [billing, setBilling] = useState({});
 
@@ -56,7 +56,7 @@ const DetailView = () => {
         let data = await fetch(
           `/api/billing/user/${userID}/month/${month}/year/${year}`
         )
-        .then(rs => rs.json())
+          .then(rs => rs.json())
 
         data = minifyData(data, { getMonth: false, getYear: false });
         data = groupBy(data, "day");

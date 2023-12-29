@@ -15,12 +15,12 @@ const MyProfile = () => {
   const router = useRouter();
 
   const { language } = useLanguage();
-  useEffect(() => {}, [language]);
+  useEffect(() => { }, [language]);
 
   // Prevent unauthorized users from accessing
   if (session === null) {
     console.log(dictionary[language].err_not_login, "profile");
-    router.push("/");
+    useEffect(() => router.push("/"));
   }
 
   useEffect(() => {

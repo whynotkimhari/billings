@@ -58,7 +58,7 @@ const CreateBilling = () => {
     );
   } else {
     console.log(dictionary[language].err_not_login, "create-billing");
-    router.push("/");
+    useEffect(() => router.push("/"))
   }
 };
 
