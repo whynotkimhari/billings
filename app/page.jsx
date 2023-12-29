@@ -16,7 +16,9 @@ const Home = () => {
           Let's keep track of your billings
         </span>
       </h1>
-      <MainChart id={ss.data?.user?.id} />
+      <div className="w-4/5 block my-0 mx-auto">
+        <MainChart id={ss.data?.user?.id} />
+      </div>
     </section>
   );
 };

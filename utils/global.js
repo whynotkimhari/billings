@@ -8,6 +8,7 @@ export const dictionary = {
         nav_link_3: 'Tạo hoá đơn',
         nav_button_1: 'Đăng xuất',
         nav_button_2: 'Đăng nhập',
+        nav_button_3: 'Switch to English',
 
         // Profile Component
         profile_h1: (name) => `Hồ sơ của ${name}`,
@@ -70,6 +71,7 @@ export const dictionary = {
         nav_link_3: 'Create billing',
         nav_button_1: 'Sign Out',
         nav_button_2: 'Sign In',
+        nav_button_3: 'Đổi sang tiếng Việt',
 
         // Profile Component
         profile_h1: (name) => `${name}'s profile`,

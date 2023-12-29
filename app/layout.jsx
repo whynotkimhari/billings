@@ -15,9 +15,11 @@ const Layout = ({ children }) => {
         <Provider>
           <LanguageProvider>
             <div className="main"></div>
-            <main className="app">
+            <main className="app min-h-screen">
               <Nav />
-              {children}
+              <div className="flex-1 w-full">
+                {children}
+              </div>
               <Footer />
             </main>
           </LanguageProvider>

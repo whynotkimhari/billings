@@ -4,7 +4,7 @@ import MainChart from "@components/MainChart";
 
 const FakeView = () => {
   return (
-    <section>
+    <section className="flex justify-center flex-col">
       <h1 className="head_text text-center">
         Billin'
         <br />
@@ -13,7 +13,9 @@ const FakeView = () => {
           Let's keep track of your billings
         </span>
       </h1>
-      <MainChart id={undefined} />
+      <div className="w-4/5 block my-0 mx-auto">
+        <MainChart id={undefined} />
+      </div>
     </section>
   );
 };

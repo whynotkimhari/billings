@@ -29,6 +29,8 @@ const Nav = () => {
   });
 
   return (
+
+    
     <nav className="flex-between w-full mb-8 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
@@ -46,7 +48,7 @@ const Nav = () => {
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <button onClick={handleLanguageChange} className="black_btn">
-              e
+              {dictionary[language].nav_button_3}
             </button>
 
             <Link href="/fake-view" className="black_btn">

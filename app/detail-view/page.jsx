@@ -98,7 +98,9 @@ const DetailView = () => {
             />
           ))}
         </div>
-        <Line data={data} options={options} />
+        <div className="w-full sm:w-3/4 mx-auto mb-4">
+          <Line data={data} options={options} />
+        </div>
       </section>
     );
   }
