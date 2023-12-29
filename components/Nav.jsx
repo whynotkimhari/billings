@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, getProviders, useSession } from "next-auth/react";
-import { mainPageHref } from "@utils/navTools";
+import { useRouter } from "next/router";
+
 import { dictionary } from "@utils/global";
 import { useLanguage } from "./LanguageContext";
 
@@ -12,6 +13,7 @@ const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(null);
+  const router = useRouter()
 
   const { language, changeLanguage } = useLanguage();
   const handleLanguageChange = () =>
@@ -66,7 +68,7 @@ const Nav = () => {
             <button
               type="button"
               onClick={() => {
-                signOut().then(() => (window.location.href = mainPageHref));
+                signOut().then(() => router.push('/'));
               }}
               className="outline_btn"
             >
