@@ -19,7 +19,7 @@ const MyProfile = () => {
 
   // Prevent unauthorized users from accessing
   if (session === null) {
-    alert(dictionary[language].err_not_login);
+    console.log(dictionary[language].err_not_login);
     router.push("/");
   }
 

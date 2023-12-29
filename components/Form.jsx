@@ -123,7 +123,7 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
       editedID = -1;
     } else {
       // will use Sweet alert here later !
-      alert("Please fill out all the box!");
+      console.log("Please fill out all the box!");
     }
   };
 

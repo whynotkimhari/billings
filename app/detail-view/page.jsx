@@ -47,7 +47,7 @@ const DetailView = () => {
 
   // Prevent unauthorized users from accessing
   if (!(month && year && userID && rate && totalSpending)) {
-    alert(dictionary[language].err_not_login);
+    console.log(dictionary[language].err_not_login);
     router.push("/");
   } else {
     const [billing, setBilling] = useState({});
