@@ -7,7 +7,7 @@ import { useLanguage } from "./LanguageContext";
 export const Menu = () => {
 
   const { language } = useLanguage();
-  useEffect(() => {}, [language]);
+  useEffect(() => { }, [language]);
 
   return (
     <div className="flex justify-center flex-col">

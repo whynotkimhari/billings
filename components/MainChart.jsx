@@ -59,7 +59,7 @@ const MainChart = ({ id }) => {
   }, [id]);
 
   const { language } = useLanguage();
-  useEffect(() => {}, [language]);
+  useEffect(() => { }, [language]);
 
   const checkMonth = checkMONTHS(months);
   const options = getOptions(dictionary[language].mainchart_title(id, year));
