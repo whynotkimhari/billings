@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
+  BarController,
   BarElement,
   CategoryScale,
+  BarController,
   LinearScale,
   LineElement,
   PointElement,
@@ -15,8 +17,10 @@ import {
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
+  BarController,
   BarElement,
   CategoryScale,
+  BarController,
   LinearScale,
   LineElement,
   PointElement,

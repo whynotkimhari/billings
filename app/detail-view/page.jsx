@@ -67,7 +67,18 @@ const DetailView = () => {
       getDetailView();
     }, []);
 
-    const options = getOptions();
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "",
+        },
+      }
+    }
     const data = getDataForChart(billing, month, year, language);
 
     return (
