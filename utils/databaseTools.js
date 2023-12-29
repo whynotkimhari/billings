@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
 
 let isConnected = false; // track connection status
-let cnt = 0
 
 export const connectToDatabase = async () => {
     mongoose.set('strictQuery', true)
 
     if (isConnected) {
-        console.log('Already connected to mongoDB', cnt++)
+        console.log('Already connected to mongoDB')
         return
     }
 
@@ -17,7 +16,7 @@ export const connectToDatabase = async () => {
         })
 
         isConnected = true
-        console.log('Connected to mongoDB', cnt++)
+        console.log('Connected to mongoDB')
     } catch (error) {
         console.log(error)
     }

@@ -2,19 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Profile from "@components/Profile";
-import { groupData, minifyData } from "@utils/profileTools";
 import { useRouter } from "next/navigation";
-import { language, dictionary } from "@utils/global";
+
+import { dictionary } from "@utils/global";
+import { useLanguage } from "@components/LanguageContext";
+import { groupData, minifyData } from "@utils/profileTools";
+import Profile from "@components/Profile";
 
 const MyProfile = () => {
   const { data: session } = useSession();
   const [items, setItems] = useState({});
-  const router = useRouter()
+  const router = useRouter();
 
-  if(session === null) {
-    alert(dictionary[language].err_not_login)
-    router.push('/')
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
+
+  // Prevent unauthorized users from accessing
+  if (session === null) {
+    alert(dictionary[language].err_not_login);
+    router.push("/");
   }
 
   useEffect(() => {
@@ -31,8 +37,15 @@ const MyProfile = () => {
     fetchBilling();
   }, [session?.user.id]);
 
-  if(session !== null && session !== undefined) {
-    return <Profile name={session?.user.name} items={items} userID={session?.user.id} />;
+  // Prevent unauthorized users from accessing
+  if (session !== null && session !== undefined) {
+    return (
+      <Profile
+        name={session?.user.name}
+        items={items}
+        userID={session?.user.id}
+      />
+    );
   }
 };
 

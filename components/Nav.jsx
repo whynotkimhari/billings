@@ -5,12 +5,19 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, getProviders, useSession } from "next-auth/react";
 import { mainPageHref } from "@utils/navTools";
-import { language, dictionary, changeLanguage } from "@utils/global";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "./LanguageContext";
 
 const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(null);
+
+  const { language, changeLanguage } = useLanguage();
+  const handleLanguageChange = () =>
+    changeLanguage(language == "vn" ? "en" : "vn");
+
+  useEffect(() => console.log("Language changed:", language), [language]);
 
   useEffect(() => {
     const setupProviders = async () => {
@@ -38,10 +45,7 @@ const Nav = () => {
       <div className="lg:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <button
-              onClick={() => changeLanguage(language === "vn" ? "en" : "vn")}
-              className="black_btn"
-            >
+            <button onClick={handleLanguageChange} className="black_btn">
               e
             </button>
 

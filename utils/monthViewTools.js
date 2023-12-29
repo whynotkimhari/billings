@@ -1,4 +1,4 @@
-import { dictionary, language } from "./global"
+import { dictionary } from "./global"
 
 const processingData = (data, month) => {
     let labels = []
@@ -14,7 +14,7 @@ const processingData = (data, month) => {
     return { labels, dataset }
 }
 
-export const getDataForChart = (data, month, year) => {
+export const getDataForChart = (data, month, year, language) => {
     const { labels, dataset } = processingData(data, month)
     return {
         labels,

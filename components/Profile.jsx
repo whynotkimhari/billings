@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import YearView from "./YearView";
-import { language, dictionary } from "@utils/global";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "./LanguageContext";
 
 const Profile = ({ name, items, userID }) => {
   const [rate, setRate] = useState(0);
+
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
+
   useEffect(() => {
     const fetchRate = async () => {
       const r = await fetch(
@@ -23,7 +29,9 @@ const Profile = ({ name, items, userID }) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
-        <span className="orange_gradient">{dictionary[language].profile_h1(name)}</span>
+        <span className="orange_gradient">
+          {dictionary[language].profile_h1(name)}
+        </span>
       </h1>
       <h2 className="text-left sm:text-2xl text-xl font-bold text-red-500">
         {dictionary[language].profile_h2(rate)}

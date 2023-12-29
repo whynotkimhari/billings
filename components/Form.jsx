@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import {
   CURRENCY,
   initFormData,
@@ -9,15 +10,26 @@ import {
   generateDiv,
   generateNextForm,
   setFormUI,
+  handleItemsDateChange,
+  handleItemsBtnChange,
 } from "@utils/formTools";
-import { dictionary, language } from "@utils/global";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "./LanguageContext";
 
+// Track the status of each event happened on the page
 let isEdit = false;
 let editedID = -1;
 let currentIDnotEdited = 0;
 
 const Form = ({ billings, setBillings, handleSubmit }) => {
   const [formData, setFormData] = useState(initFormData);
+
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    handleItemsDateChange(formData.date, language);
+    handleItemsBtnChange(language);
+  }, [language]);
 
   const handleAddButtonClick = () => {
     const currentFormData = !isEdit ? getData(formData.id) : getData(editedID);
@@ -28,9 +40,7 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
     if (checkValidForm(currentFormData)) {
       // terminate date input
       document.getElementById("dateID").style.display = "none";
-      document.getElementById("items-date").innerText = dictionary[
-        language
-      ].form_date(currentFormData.date);
+      handleItemsDateChange(currentFormData.date, language);
 
       // push data to memory
       currentBillings.push(currentFormData);
@@ -40,7 +50,8 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
       // push data to user view
       document.getElementById("items").innerHTML += generateDiv(
         currentFormData,
-        CURRENCY
+        CURRENCY,
+        language
       );
 
       // add function for each item
@@ -54,8 +65,10 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
             (i) => i.id !== Number(e.target.dataset.id)
           );
           setBillings(currentBillings);
-          
-          document.getElementById(`item-${Number(e.target.dataset.id)}`).remove();
+
+          document
+            .getElementById(`item-${Number(e.target.dataset.id)}`)
+            .remove();
 
           console.log("Registered Items after Deleting: ", currentBillings);
         };
@@ -193,7 +206,11 @@ const Form = ({ billings, setBillings, handleSubmit }) => {
               className="form_btn"
               onClick={handleAddButtonClick}
             />
-            <input type="submit" value={dictionary[language].form_save_btn} className="form_btn" />
+            <input
+              type="submit"
+              value={dictionary[language].form_save_btn}
+              className="form_btn"
+            />
           </div>
         </form>
       </div>

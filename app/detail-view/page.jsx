@@ -14,14 +14,6 @@ import {
   Tooltip,
 } from "chart.js";
 
-import { minifyData, groupBy } from "@utils/profileTools";
-import { formatNumber } from "@utils/yearViewTools";
-import MonthView from "@components/MonthView";
-import { getDataForChart } from "@utils/monthViewTools";
-import { getOptions } from "@utils/mainChartTools";
-import { Line } from "react-chartjs-2";
-import { dictionary, language } from "@utils/global";
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -32,6 +24,15 @@ ChartJS.register(
   Tooltip
 );
 
+import { minifyData, groupBy } from "@utils/profileTools";
+import { formatNumber } from "@utils/yearViewTools";
+import MonthView from "@components/MonthView";
+import { getDataForChart } from "@utils/monthViewTools";
+import { getOptions } from "@utils/mainChartTools";
+import { Line } from "react-chartjs-2";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "@components/LanguageContext";
+
 const DetailView = () => {
   const searchParams = useSearchParams();
   const month = searchParams.get("month");
@@ -41,18 +42,22 @@ const DetailView = () => {
   const totalSpending = Number(searchParams.get("total"));
   const router = useRouter();
 
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
+
+  // Prevent unauthorized users from accessing
   if (!(month && year && userID && rate && totalSpending)) {
-    alert(dictionary[language].err_not_login)
+    alert(dictionary[language].err_not_login);
     router.push("/");
   } else {
     const [billing, setBilling] = useState({});
 
     useEffect(() => {
       const getDetailView = async () => {
-        const response = await fetch(
+        let data = await fetch(
           `/api/billing/user/${userID}/month/${month}/year/${year}`
-        );
-        let data = await response.json();
+        )
+        .then(rs => rs.json())
 
         data = minifyData(data, { getMonth: false, getYear: false });
         data = groupBy(data, "day");
@@ -64,7 +69,7 @@ const DetailView = () => {
     }, []);
 
     const options = getOptions();
-    const data = getDataForChart(billing, month, year);
+    const data = getDataForChart(billing, month, year, language);
 
     return (
       <section className="w-full">
@@ -73,10 +78,13 @@ const DetailView = () => {
             {dictionary[language].detailview_h1(month, year)}
           </h1>
           <h2 className="text-center sm:text-2xl text-xl font-bold mt-1 text-red-500">
-            {dictionary[language].detailview_h2(formatNumber(totalSpending), formatNumber(Math.ceil(rate * totalSpending)))}
+            {dictionary[language].detailview_h2(
+              formatNumber(totalSpending),
+              formatNumber(Math.ceil(rate * totalSpending))
+            )}
           </h2>
           <h2 className="text-center sm:text-2xl text-xl font-bold text-red-500">
-          {dictionary[language].profile_h2(rate)}
+            {dictionary[language].profile_h2(rate)}
           </h2>
         </div>
         <div className="flex justify-center mt-4 flex-wrap">

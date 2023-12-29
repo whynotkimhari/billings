@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import {
   Chart as ChartJS,
   BarElement,
@@ -14,15 +13,6 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Menu } from "./Menu";
-
-import {
-  getDataForChart,
-  getOptions,
-  getMonths,
-  checkMONTHS,
-} from "@utils/mainChartTools";
-import { dictionary, language } from "@utils/global";
 
 ChartJS.register(
   BarElement,
@@ -35,13 +25,24 @@ ChartJS.register(
   Tooltip
 );
 
+import {
+  getDataForChart,
+  getOptions,
+  getMonths,
+  checkMONTHS,
+} from "@utils/mainChartTools";
+import { Menu } from "./Menu";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "./LanguageContext";
+
+
 const MainChart = ({ id }) => {
   const year = new Date().getFullYear();
   const [months, setMonths] = useState([]);
 
   useEffect(() => {
     const fetchBilling = async () => {
-      if(!id) return
+      if (!id) return;
 
       const result = await fetch(`/api/billing/user/${id}/year/${year}`).then(
         (response) => response.json()
@@ -53,9 +54,12 @@ const MainChart = ({ id }) => {
     fetchBilling();
   }, [id]);
 
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
+
   const checkMonth = checkMONTHS(months);
   const options = getOptions(dictionary[language].mainchart_title(id, year));
-  const data = getDataForChart(months, checkMonth, id);
+  const data = getDataForChart(months, checkMonth, id, language);
 
   return (
     <section>

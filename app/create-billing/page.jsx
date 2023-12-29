@@ -1,16 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
-import { dictionary, language } from "@utils/global";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "@components/LanguageContext";
 
 const CreateBilling = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [billings, setBillings] = useState([]);
+
+  // Listen the change of language
+  // Rerender when it happens
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
 
   const createBillings = async (event) => {
     event.preventDefault();
@@ -41,7 +47,8 @@ const CreateBilling = () => {
     });
   };
 
-  if (session !== null) {
+  // Prevent unauthorized users from accessing
+  if (session) {
     return (
       <Form
         billings={billings}
@@ -49,11 +56,9 @@ const CreateBilling = () => {
         handleSubmit={createBillings}
       />
     );
-  }
-
-  else {
-    alert(dictionary[language].err_empty_field)
-    router.push('/')
+  } else {
+    alert(dictionary[language].err_not_login);
+    router.push("/");
   }
 };
 

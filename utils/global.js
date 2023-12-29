@@ -1,11 +1,5 @@
 import { toStr } from "./yearViewTools"
 
-export let language = "vn"
-
-export const changeLanguage = (newLanguage) => {
-    language = newLanguage
-}
-
 export const dictionary = {
     vn: {
         // Navigation Component

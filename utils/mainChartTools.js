@@ -1,5 +1,4 @@
-import { toStr } from "./yearViewTools";
-import { language, dictionary } from "./global";
+import { dictionary } from "./global";
 
 const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -104,7 +103,7 @@ export const getOptions = (text = "") => {
     }
 }
 
-export const getDataForChart = (months, checkMonth, id) => {
+export const getDataForChart = (months, checkMonth, id, language) => {
     const dataset1 = months.map((m) => m.shopping_date.length);
     const dataset2 = months.map((m) => m.total);
     const [fakeDataset1, fakeDataset2] = getFakeData(labels);

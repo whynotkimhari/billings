@@ -1,8 +1,11 @@
 "use client";
 
-import { formatNumber } from "@utils/yearViewTools";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { language, dictionary } from "@utils/global";
+
+import { useLanguage } from "./LanguageContext";
+import { formatNumber } from "@utils/yearViewTools";
+import { dictionary } from "@utils/global";
 
 const YearView = ({ data, year, month, rate, userID }) => {
   const list = Object.values(data).flat(1);
@@ -20,6 +23,9 @@ const YearView = ({ data, year, month, rate, userID }) => {
       `/detail-view?month=${month}&year=${year}&userID=${userID}&rate=${rate}&total=${totalSpending}`
     );
   };
+
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
 
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 mt-4 md:w-1/3">

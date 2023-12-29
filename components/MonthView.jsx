@@ -1,9 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { formatNumber } from "@utils/yearViewTools";
-import { dictionary, language } from "@utils/global";
+import { dictionary } from "@utils/global";
+import { useLanguage } from "./LanguageContext";
 
 const MonthView = ({ day, month, year, data, rate }) => {
+  const { language } = useLanguage();
+  useEffect(() => {}, [language]);
+
   const sumDay = data.reduce(
     (sum, item) => sum + item.itemPrice * item.itemQuantity,
     0
